@@ -1,0 +1,21 @@
+{
+  "appId": "com.drinkwater.app",
+  "appName": "心水",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "launchAutoHide": true,
+      "backgroundColor": "#ff6b9d",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "androidSpinnerStyle": "large",
+      "showSpinner": true,
+      "spinnerColor": "#ffffff"
+    }
+  }
+}

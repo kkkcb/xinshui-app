@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心水</title>
+    <script src="encouragements.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.6);
+            font-size: 24px;
+            animation: float 6s ease-in infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: linear-gradient(180deg, #fff5f7 0%, #ffffff 100%);
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.4);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            border: 4px solid #ffb6c1;
+        }
+
+        .status-bar {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .app-header::after {
+            content: '💕';
+            position: absolute;
+            right: 70px;
+            font-size: 20px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .app-header h1 {
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-btn {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255,255,255,0.5);
+            transform: rotate(30deg);
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .stats-btn {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .stats-btn:hover {
+            background: rgba(255,255,255,0.5);
+            transform: scale(1.1);
+        }
+
+        .app-content {
+            padding: 20px;
+            height: calc(100% - 44px - 80px);
+            overflow-y: auto;
+        }
+
+        .greeting {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #ffe4e9 0%, #fff0f3 100%);
+            border-radius: 20px;
+            border: 2px solid #ffcdd6;
+        }
+
+        .greeting h2 {
+            font-size: 22px;
+            color: #ff6b9d;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .greeting .subtitle {
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .love-quote {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #fff0f3;
+            border-radius: 15px;
+            border-left: 4px solid #ff6b9d;
+        }
+
+        .love-quote p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .love-quote .heart-icon {
+            color: #ff6b9d;
+            font-size: 18px;
+        }
+
+        .counter-circle {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffb6c1 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
+            position: relative;
+            border: 4px solid #fff;
+        }
+
+        .counter-circle::before {
+            content: '💧';
+            position: absolute;
+            top: -10px;
+            font-size: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .counter-circle .count {
+            font-size: 64px;
+            font-weight: bold;
+            color: white;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .counter-circle .label {
+            font-size: 20px;
+            color: white;
+            margin-top: 5px;
+        }
+
+        .counter-circle .encouragement {
+            font-size: 12px;
+            color: rgba(255,255,255,0.9);
+            margin-top: 5px;
+        }
+
+        .drink-btn {
+            width: 100%;
+            height: 56px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            border: none;
+            border-radius: 28px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .drink-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
+        }
+
+        .drink-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #ffe4e9;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d 0%, #ff8fab 100%);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 14px;
+            color: #ff6b9d;
+            font-weight: 500;
+        }
+
+        .drink-btn .heart {
+            font-size: 24px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .health-tip {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff6b9d;
+        }
+
+        .health-tip p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .health-tip .tip-icon {
+            color: #ff6b9d;
+            margin-right: 5px;
+        }
+
+        .records-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff6b9d;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .record-item {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #ffe4e9;
+            transition: all 0.3s;
+        }
+
+        .record-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(255, 107, 157, 0.2);
+        }
+
+        .record-item .icon {
+            font-size: 24px;
+        }
+
+        .record-item span {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .record-item .time {
+            color: #ff6b9d;
+            font-weight: 500;
+        }
+
+        .settings-panel {
+            display: none;
+            padding: 20px;
+            height: calc(100% - 44px - 80px);
+            overflow-y: auto;
+        }
+
+        .settings-panel.active {
+            display: block;
+        }
+
+        .settings-card {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+            margin-bottom: 20px;
+            border: 2px solid #ffe4e9;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .setting-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .switch {
+            width: 52px;
+            height: 28px;
+            background: #ddd;
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .switch.active {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+        }
+
+        .switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .switch.active::after {
+            left: 26px;
+        }
+
+        .time-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid #ff6b9d;
+            background: white;
+            color: #ff6b9d;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .time-btn:hover {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .time-display {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff6b9d;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ff6b9d;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .save-btn {
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            border: none;
+            border-radius: 26px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.5);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: #ff6b9d;
+            border-radius: 3px;
+            opacity: 0.3;
+        }
+
+        .encouragement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            padding: 30px 40px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.5);
+            transition: transform 0.3s ease-out;
+            text-align: center;
+        }
+
+        .encouragement-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .encouragement-popup .heart {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+            animation: heartbeat 1s ease-in-out infinite;
+        }
+
+        @keyframes circle-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: circle-pulse 0.3s ease-in-out;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        .reminder-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 24px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 15px 50px rgba(255, 107, 157, 0.6);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+            min-width: 280px;
+            border: 3px solid white;
+        }
+
+        .reminder-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .reminder-popup .heart {
+            font-size: 50px;
+            display: block;
+            margin-bottom: 15px;
+            animation: heartbeat 1s ease-in-out infinite;
+        }
+
+        .reminder-popup .message {
+            font-size: 20px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .reminder-popup .time-info {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .reminder-popup .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .reminder-popup button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reminder-popup .drink-now-btn {
+            background: white;
+            color: #ff6b9d;
+        }
+
+        .reminder-popup .drink-now-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255,255,255,0.4);
+        }
+
+        .reminder-popup .close-btn {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .reminder-popup .close-btn:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .countdown-display {
+            background: linear-gradient(135deg, #ffe4e9 0%, #fff0f3 100%);
+            padding: 12px 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 2px solid #ffcdd6;
+        }
+
+        .countdown-display .label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .countdown-display .time {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b9d;
+        }
+
+        .cooldown-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            padding: 40px 30px;
+            border-radius: 30px;
+            text-align: center;
+            z-index: 2000;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            max-width: 90vw;
+        }
+
+        .cooldown-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .cooldown-popup .heart {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 20px;
+            animation: heartbeat 1s ease-in-out infinite;
+        }
+
+        .cooldown-popup .message {
+            font-size: 20px;
+            color: white;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .cooldown-popup .countdown-info {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cooldown-popup .countdown-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .cooldown-popup .countdown-time {
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .cooldown-popup button {
+            background: white;
+            color: #ff6b9d;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cooldown-popup button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .cooldown-popup button:active {
+            transform: scale(0.98);
+        }
+
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1001;
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
+            transform: translateX(400px);
+            transition: transform 0.4s ease-out;
+            max-width: 300px;
+        }
+
+        .notification-toast.show {
+            transform: translateX(0);
+        }
+
+        .notification-toast .heart {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+
+        .easter-egg-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .easter-egg-popup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .easter-egg-content {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 25%, #FF69B4 50%, #9370DB 75%, #FFD700 100%);
+            background-size: 400% 400%;
+            animation: rainbow 3s ease infinite;
+            padding: 50px 40px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.6);
+            max-width: 320px;
+            position: relative;
+            z-index: 2001;
+            border: 4px solid white;
+            transform: scale(0);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .easter-egg-popup.show .easter-egg-content {
+            transform: scale(1);
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .celebration-emoji {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .easter-egg-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .easter-egg-message {
+            font-size: 18px;
+            color: white;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            line-height: 1.5;
+        }
+
+        .easter-egg-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            border: 3px solid white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.5);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .easter-egg-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.7);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .stats-panel {
+            display: none;
+            padding: 20px;
+            height: calc(100% - 44px - 80px);
+            overflow-y: auto;
+        }
+
+        .stats-panel.active {
+            display: block;
+        }
+
+        .stats-header {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: -20px -20px 20px -20px;
+            padding-bottom: 20px;
+        }
+
+        .stats-header h2 {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+            border: 2px solid #ffe4e9;
+        }
+
+        .stats-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .stats-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff6b9d;
+            margin-bottom: 5px;
+        }
+
+        .stats-label {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #ffe4e9;
+        }
+
+        .stats-section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff6b9d;
+            margin-bottom: 15px;
+        }
+
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .chart-bar {
+            width: 40px;
+            background: linear-gradient(180deg, #ff6b9d 0%, #ff8fab 100%);
+            border-radius: 8px 8px 0 0;
+            transition: height 0.3s ease;
+            position: relative;
+        }
+
+        .chart-bar .label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #888;
+            white-space: nowrap;
+        }
+
+        .chart-bar .count {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff6b9d;
+        }
+
+        .calendar-container {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .calendar-day.empty {
+            background: #f5f5f5;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #ff6b9d;
+            font-weight: bold;
+        }
+
+        .calendar-day.not-achieved {
+            background: #ffe4e9;
+            color: #888;
+        }
+
+        .calendar-day.achieved {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+        }
+
+        .calendar-day .drink-count {
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+                align-items: flex-start;
+            }
+
+            .phone-frame {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+                box-shadow: none;
+            }
+
+            .app-content {
+                height: calc(100% - 44px - 80px);
+            }
+        }
+
+        @media (min-width: 320px) and (max-width: 375px) {
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 376px) and (max-width: 428px) {
+            .stats-overview {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <div class="phone-frame">
+        <div class="status-bar">
+            <span id="currentTime">9:41</span>
+            <span>💕 100%</span>
+        </div>
+
+        <div class="app-header">
+            <h1>💗 喝水提醒</h1>
+            <div class="header-buttons">
+                <button class="stats-btn" onclick="toggleStats()">📊</button>
+                <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+            </div>
+        </div>
+
+        <div class="app-content" id="mainContent">
+            <div class="greeting">
+                <h2>亲爱的昕昕 💕</h2>
+                <p class="subtitle">乖宝宝今天也要好好喝水哦~</p>
+            </div>
+
+            <div class="countdown-display" id="countdownDisplay">
+                <div class="label">⏰ 距离下次提醒还有</div>
+                <div class="time" id="countdownTime">--:--</div>
+            </div>
+
+            <div class="love-quote">
+                <p><span class="heart-icon">💗</span> 宝宝多喝水，皮肤会更好，身体会更棒，我最爱我的乖宝宝~</p>
+            </div>
+
+            <div class="counter-circle" id="counterCircle">
+                <span class="count" id="drinkCount">0</span>
+                <span class="label">今日</span>
+                <span class="encouragement" id="encouragement">加油！</span>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 / 8</div>
+            </div>
+
+            <button class="drink-btn" onclick="drinkWater()">
+                <span class="heart">💗</span>
+                我喝了一杯水
+                <span class="heart">💗</span>
+            </button>
+
+            <div class="health-tip">
+                <p><span class="tip-icon">💡</span> <span id="healthTip">每天喝8杯水，保持身体健康，我会一直陪着你~</span></p>
+            </div>
+
+            <div class="records-title">
+                📝 最近记录
+            </div>
+            <div id="recordsList">
+                <div class="empty-state">
+                    <div class="icon">💧</div>
+                    <p>还没有喝水记录哦，快点击按钮开始吧~</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-card">
+                <div class="setting-row">
+                    <span class="setting-label">💌 启用提醒</span>
+                    <div class="switch active" id="reminderSwitch" onclick="toggleReminder()"></div>
+                </div>
+
+                <div id="reminderSettings">
+                    <div class="section-title" style="margin-top: 20px;">⏰ 提醒间隔</div>
+                    <div class="setting-row">
+                        <button class="time-btn" onclick="changeInterval(-15)">-</button>
+                        <span class="time-display" id="intervalDisplay">60 分钟</span>
+                        <button class="time-btn" onclick="changeInterval(15)">+</button>
+                    </div>
+
+                    <div class="section-title" style="margin-top: 20px;">🌅 提醒时间段</div>
+                    
+                    <div class="setting-row">
+                        <span class="setting-label" style="font-size: 13px; color: #888;">开始时间</span>
+                        <div class="time-control">
+                            <button class="time-btn" onclick="changeStartTime(-1)">-</button>
+                            <span class="time-display" id="startTimeDisplay">09:00</span>
+                            <button class="time-btn" onclick="changeStartTime(1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-row">
+                        <span class="setting-label" style="font-size: 13px; color: #888;">结束时间</span>
+                        <div class="time-control">
+                            <button class="time-btn" onclick="changeEndTime(-1)">-</button>
+                            <span class="time-display" id="endTimeDisplay">22:00</span>
+                            <button class="time-btn" onclick="changeEndTime(1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title" style="margin-top: 20px;">🎯 每日喝水目标</div>
+                <div class="setting-row">
+                    <button class="time-btn" onclick="changeDailyGoal(-1)">-</button>
+                    <span class="time-display" id="dailyGoalDisplay">8 杯</span>
+                    <button class="time-btn" onclick="changeDailyGoal(1)">+</button>
+                </div>
+            </div>
+
+            <button class="save-btn" onclick="saveSettings()">
+                💝 保存设置
+            </button>
+        </div>
+
+        <div class="stats-panel" id="statsPanel">
+            <div class="stats-header">
+                <h2>📊 统计数据</h2>
+                <button class="back-btn" onclick="toggleStats()">←</button>
+            </div>
+
+            <div class="stats-overview">
+                <div class="stats-card">
+                    <div class="stats-icon">💧</div>
+                    <div class="stats-info">
+                        <div class="stats-number" id="totalDrinks">0</div>
+                        <div class="stats-label">总喝水量</div>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-icon">🎯</div>
+                    <div class="stats-info">
+                        <div class="stats-number" id="goalDays">0</div>
+                        <div class="stats-label">达标天数</div>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-icon">📅</div>
+                    <div class="stats-info">
+                        <div class="stats-number" id="currentStreak">0</div>
+                        <div class="stats-label">连续达标</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3 class="stats-section-title">📈 本周统计</h3>
+                <div class="chart-container" id="weekChart"></div>
+            </div>
+
+            <div class="stats-section">
+                <h3 class="stats-section-title">📅 本月日历</h3>
+                <div class="calendar-container" id="calendarContainer"></div>
+            </div>
+        </div>
+
+        <div class="home-indicator"></div>
+    </div>
+
+    <div class="encouragement-popup" id="encouragementPopup">
+        <span class="heart">💗</span>
+        <span id="popupText">真棒！</span>
+    </div>
+
+    <div class="reminder-popup" id="reminderPopup">
+        <span class="heart">💕</span>
+        <div class="message" id="reminderMessage">乖宝宝该喝水啦~</div>
+        <div class="time-info" id="reminderTimeInfo"></div>
+        <div class="btn-group">
+            <button class="drink-now-btn" onclick="drinkFromReminder()">💧 我喝啦</button>
+            <button class="close-btn" onclick="closeReminder()">稍后再说</button>
+        </div>
+    </div>
+
+    <div class="cooldown-popup" id="cooldownPopup">
+        <span class="heart">⏰</span>
+        <div class="message" id="cooldownMessage">宝宝，刚喝过水啦，休息一下再喝哦~</div>
+        <div class="countdown-info">
+            <div class="countdown-label">还要等待</div>
+            <div class="countdown-time" id="cooldownTime">60</div>
+            <div class="countdown-label">秒</div>
+        </div>
+        <button class="close-btn" onclick="closeCooldownPopup()">我知道了</button>
+    </div>
+
+    <div class="notification-toast" id="notificationToast">
+        <span class="heart">💕</span>
+        <span id="toastMessage"></span>
+    </div>
+
+    <div class="easter-egg-popup" id="easterEggPopup">
+        <div class="confetti-container" id="confettiContainer"></div>
+        <div class="easter-egg-content">
+            <div class="celebration-emoji">🎉🎊🎉</div>
+            <h2 class="easter-egg-title">恭喜宝宝达成100杯！</h2>
+            <p class="easter-egg-message">截图找哥哥领取小红包奖励 🧧</p>
+            <button class="easter-egg-btn" onclick="hideEasterEgg()">🧧 领取奖励</button>
+        </div>
+    </div>
+
+    <script>
+        let drinkCount = 0;
+        let records = [];
+        let reminderEnabled = true;
+        let reminderInterval = 60;
+        let startHour = 9;
+        let startMinute = 0;
+        let endHour = 22;
+        let endMinute = 0;
+
+        const healthTips = [
+            "宝宝每天喝8杯水，保持身体健康，我会一直陪着你~",
+            "早晨一杯水，唤醒宝宝美好的一天~",
+            "多喝水能促进新陈代谢，让宝宝更美哦~",
+            "学习累了就喝杯水，宝宝休息一下~",
+            "喝水是最好的护肤品，昕昕要美美的~",
+            "宝宝记得小口慢饮，对身体更好哦~",
+            "乖宝宝多喝水，身体棒棒哒~",
+            "爱喝水的宝宝皮肤最好了~"
+        ];
+
+        const reminderMessages = {
+            morning: [
+                "早安宝宝，喝杯水开启新的一天~ 💕",
+                "宝宝早安！来杯温水唤醒身体~ 💗",
+                "亲爱的昕昕，早上好！喝水啦~ 💝",
+                "早安宝宝，一杯水开始美好的一天~ 💕",
+                "宝宝早上好，记得先喝杯水哦~ 💗"
+            ],
+            evening: [
+                "宝宝，喝杯水放松心情~ 💕",
+                "晚安前的温水，让宝宝睡得更香~ 💗",
+                "亲爱的昕昕，睡前喝杯水放松一下~ 💝",
+                "宝宝，一杯温水结束美好的一天~ 💕",
+                "乖宝宝，睡前喝杯水，明天更精神~ 💗"
+            ],
+            general: [
+                "乖宝宝该喝水啦~ 💕",
+                "亲爱的昕昕，记得喝水呀~ 💗",
+                "宝宝，该补充水分啦~ 💝",
+                "昕昕宝贝，喝水时间到~ 💕",
+                "乖，喝杯水休息一下吧~ 💗",
+                "宝宝该喝水啦，爱你哟~ 💝",
+                "昕昕，来杯水润润喉~ 💕",
+                "乖宝宝，喝水时间到啦~ 💗"
+            ]
+        };
+
+        let nextReminderTime = null;
+        let countdownInterval = null;
+        let reminderTimeout = null;
+        let dailyGoal = 8;
+        let dailyRecords = {};
+        let easterEggTriggered = false;
+        let lastDrinkTime = null;
+        const cooldownTime = 60000;
+
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = ['💗', '💖', '💕', '💝'][Math.floor(Math.random() * 4)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('currentTime').textContent = timeStr;
+        }
+
+        function showEncouragement() {
+            const popup = document.getElementById('encouragementPopup');
+            const text = document.getElementById('popupText');
+            text.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
+            popup.classList.add('show');
+            setTimeout(() => popup.classList.remove('show'), 2000);
+        }
+
+        function drinkWater() {
+            const now = new Date();
+            
+            // 检查冷却时间
+            if (lastDrinkTime) {
+                const timeDiff = now.getTime() - lastDrinkTime.getTime();
+                if (timeDiff < cooldownTime) {
+                    const remainingSeconds = Math.ceil((cooldownTime - timeDiff) / 1000);
+                    showCooldownPopup(remainingSeconds);
+                    return;
+                }
+            }
+            
+            drinkCount++;
+            const dateStr = now.toISOString().split('T')[0];
+            const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+            records.unshift({ time: timeStr, icon: ['💧', '💦', '💗', '💖'][Math.floor(Math.random() * 4)] });
+            
+            // 更新每日记录
+            if (!dailyRecords[dateStr]) {
+                dailyRecords[dateStr] = { count: 0, times: [] };
+            }
+            dailyRecords[dateStr].count++;
+            dailyRecords[dateStr].times.push(timeStr);
+            
+            // 更新上次喝水时间
+            lastDrinkTime = now;
+            
+            // 限制记录最多100条
+            if (records.length > 100) {
+                records = records.slice(0, 100);
+            }
+            
+            updateDisplay();
+            saveData();
+            
+            // 检查是否达到100次，触发彩蛋
+            if (drinkCount === 100 && !easterEggTriggered) {
+                easterEggTriggered = true;
+                showEasterEgg();
+                saveData();
+            } else {
+                showEncouragement();
+            }
+            
+            const circle = document.getElementById('counterCircle');
+            circle.classList.add('pulse');
+            setTimeout(() => circle.classList.remove('pulse'), 300);
+
+            // 更新鼓励语（基于每日目标）
+            const todayCount = dailyRecords[dateStr] ? dailyRecords[dateStr].count : 0;
+            document.getElementById('encouragement').textContent = 
+                todayCount >= dailyGoal ? "恭喜宝宝完成今日目标！🎉" : 
+                todayCount >= Math.floor(dailyGoal * 0.5) ? "继续保持！💗" : "加油！💝";
+
+            // 随机更换健康提示
+            document.getElementById('healthTip').textContent = 
+                healthTips[Math.floor(Math.random() * healthTips.length)];
+        }
+
+        function updateDisplay() {
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            const todayCount = dailyRecords[todayStr] ? dailyRecords[todayStr].count : 0;
+            
+            document.getElementById('drinkCount').textContent = todayCount;
+            
+            // 更新今日进度
+            const progressPercent = Math.min(100, (todayCount / dailyGoal) * 100);
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = `${todayCount} / ${dailyGoal}`;
+            
+            const recordsList = document.getElementById('recordsList');
+            if (records.length === 0) {
+                recordsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">💧</div>
+                        <p>还没有喝水记录哦，快点击按钮开始吧~</p>
+                    </div>
+                `;
+            } else {
+                recordsList.innerHTML = records.slice(0, 10).map((record, index) => `
+                    <div class="record-item" style="animation-delay: ${index * 0.1}s">
+                        <span class="icon">${record.icon}</span>
+                        <span>在 <span class="time">${record.time}</span> 喝了一杯水</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleSettings() {
+            const mainContent = document.getElementById('mainContent');
+            const settingsPanel = document.getElementById('settingsPanel');
+            
+            if (settingsPanel.classList.contains('active')) {
+                settingsPanel.classList.remove('active');
+                mainContent.style.display = 'block';
+            } else {
+                settingsPanel.classList.add('active');
+                mainContent.style.display = 'none';
+            }
+        }
+
+        function toggleReminder() {
+            reminderEnabled = !reminderEnabled;
+            const switchEl = document.getElementById('reminderSwitch');
+            const settingsDiv = document.getElementById('reminderSettings');
+            
+            if (reminderEnabled) {
+                switchEl.classList.add('active');
+                settingsDiv.style.display = 'block';
+            } else {
+                switchEl.classList.remove('active');
+                settingsDiv.style.display = 'none';
+            }
+        }
+
+        function changeInterval(delta) {
+            reminderInterval = Math.max(15, Math.min(180, reminderInterval + delta));
+            document.getElementById('intervalDisplay').textContent = `${reminderInterval} 分钟`;
+        }
+
+        function changeStartTime(delta) {
+            let totalMinutes = startHour * 60 + startMinute + delta * 60;
+            totalMinutes = Math.max(0, Math.min(1439, totalMinutes));
+            startHour = Math.floor(totalMinutes / 60);
+            startMinute = totalMinutes % 60;
+            document.getElementById('startTimeDisplay').textContent = 
+                `${String(startHour).padStart(2, '0')}:${String(startMinute).padStart(2, '0')}`;
+        }
+
+        function changeEndTime(delta) {
+            let totalMinutes = endHour * 60 + endMinute + delta * 60;
+            totalMinutes = Math.max(0, Math.min(1439, totalMinutes));
+            endHour = Math.floor(totalMinutes / 60);
+            endMinute = totalMinutes % 60;
+            document.getElementById('endTimeDisplay').textContent = 
+                `${String(endHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
+        }
+
+        function changeDailyGoal(delta) {
+            dailyGoal = Math.max(1, Math.min(20, dailyGoal + delta));
+            document.getElementById('dailyGoalDisplay').textContent = `${dailyGoal} 杯`;
+        }
+
+        function toggleStats() {
+            const mainContent = document.getElementById('mainContent');
+            const statsPanel = document.getElementById('statsPanel');
+            
+            if (statsPanel.classList.contains('active')) {
+                statsPanel.classList.remove('active');
+                mainContent.style.display = 'block';
+            } else {
+                statsPanel.classList.add('active');
+                mainContent.style.display = 'none';
+                updateStats();
+            }
+        }
+
+        function updateStats() {
+            // 计算总喝水量
+            const totalDrinks = Object.values(dailyRecords).reduce((sum, day) => sum + day.count, 0);
+            document.getElementById('totalDrinks').textContent = totalDrinks;
+            
+            // 计算达标天数
+            const goalDays = Object.values(dailyRecords).filter(day => day.count >= dailyGoal).length;
+            document.getElementById('goalDays').textContent = goalDays;
+            
+            // 计算连续达标天数
+            const streak = calculateStreak();
+            document.getElementById('currentStreak').textContent = streak;
+            
+            // 渲染图表
+            renderWeekChart();
+            renderCalendar();
+        }
+
+        function calculateStreak() {
+            const dates = Object.keys(dailyRecords).sort().reverse();
+            let streak = 0;
+            
+            for (const date of dates) {
+                if (dailyRecords[date].count >= dailyGoal) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            
+            return streak;
+        }
+
+        function renderWeekChart() {
+            const chartContainer = document.getElementById('weekChart');
+            const today = new Date();
+            const weekData = [];
+            
+            // 获取最近7天的数据
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayData = dailyRecords[dateStr];
+                weekData.push({
+                    date: date.toLocaleDateString('zh-CN', { weekday: 'short' }),
+                    count: dayData ? dayData.count : 0
+                });
+            }
+            
+            // 计算最大值用于图表高度
+            const maxCount = Math.max(...weekData.map(d => d.count), dailyGoal);
+            
+            chartContainer.innerHTML = weekData.map(d => {
+                const height = maxCount > 0 ? (d.count / maxCount) * 150 : 0;
+                return `
+                    <div class="chart-bar" style="height: ${height}px;">
+                        <span class="count">${d.count}</span>
+                        <span class="label">${d.date}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderCalendar() {
+            const calendarContainer = document.getElementById('calendarContainer');
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+            
+            // 获取当月第一天和最后一天
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            
+            // 获取当月第一天是星期几（0-6，周日为0）
+            const firstDayOfWeek = firstDay.getDay();
+            
+            let calendarHTML = '';
+            
+            // 添加空白格子（填补前面的空白）
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                calendarHTML += `<div class="calendar-day empty"></div>`;
+            }
+            
+            // 添加日期格子
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isToday = dateStr === today.toISOString().split('T')[0];
+                const dayData = dailyRecords[dateStr];
+                const count = dayData ? dayData.count : 0;
+                const achieved = count >= dailyGoal;
+                
+                let className = 'calendar-day';
+                if (isToday) className += ' today';
+                if (achieved) className += ' achieved';
+                else if (count > 0) className += ' not-achieved';
+                else className += ' empty';
+                
+                calendarHTML += `
+                    <div class="${className}">
+                        <span>${day}</span>
+                        ${count > 0 ? `<span class="drink-count">${count}</span>` : ''}
+                    </div>
+                `;
+            }
+            
+            calendarContainer.innerHTML = calendarHTML;
+        }
+
+        function saveSettings() {
+            const settings = {
+                reminderEnabled,
+                reminderInterval,
+                startTime: `${String(startHour).padStart(2, '0')}:${String(startMinute).padStart(2, '0')}`,
+                endTime: `${String(endHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`,
+                dailyGoal
+            };
+            
+            showNotification(`💝 设置已保存！\n提醒状态：${settings.reminderEnabled ? '已启用 💗' : '已禁用'}\n提醒间隔：${settings.reminderInterval} 分钟\n提醒时间：${settings.startTime} - ${settings.endTime}\n每日目标：${settings.dailyGoal} 杯`);
+            toggleSettings();
+            saveData();
+            
+            // 重新设置提醒
+            if (reminderEnabled) {
+                scheduleNextReminder();
+            } else {
+                clearTimeout(reminderTimeout);
+                clearInterval(countdownInterval);
+                document.getElementById('countdownTime').textContent = '--:--';
+            }
+        }
+
+        // 检查当前时间是否在提醒时间段内
+        function isInReminderTimeRange() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+            const startTime = startHour * 60 + startMinute;
+            const endTime = endHour * 60 + endMinute;
+            return currentTime >= startTime && currentTime <= endTime;
+        }
+
+        // 计算下次提醒时间
+        function getNextReminderTime() {
+            const now = new Date();
+            const reminderTime = new Date(now.getTime() + reminderInterval * 60000);
+            
+            // 检查是否超出结束时间
+            const endTimeToday = new Date();
+            endTimeToday.setHours(endHour, endMinute, 0, 0);
+            
+            if (reminderTime > endTimeToday) {
+                // 推迟到明天的开始时间
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(startHour, startMinute, 0, 0);
+                return tomorrow;
+            }
+            
+            return reminderTime;
+        }
+
+        // 显示倒计时
+        function updateCountdown() {
+            if (!reminderEnabled || !nextReminderTime) {
+                document.getElementById('countdownTime').textContent = '--:--';
+                return;
+            }
+
+            const now = new Date();
+            const diff = nextReminderTime - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdownTime').textContent = '00:00';
+                return;
+            }
+
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+
+            if (hours > 0) {
+                document.getElementById('countdownTime').textContent = 
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            } else {
+                document.getElementById('countdownTime').textContent = 
+                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        }
+
+        // 显示提醒弹窗
+        function showReminderPopup() {
+            if (!reminderEnabled) return;
+            
+            // 根据当前时间选择提醒语
+            const now = new Date();
+            const hour = now.getHours();
+            let messages;
+            
+            if (hour >= 6 && hour < 9) {
+                messages = reminderMessages.morning;
+            } else if (hour >= 18 && hour < 22) {
+                messages = reminderMessages.evening;
+            } else {
+                messages = reminderMessages.general;
+            }
+            
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('reminderMessage').textContent = message;
+            
+            const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('reminderTimeInfo').textContent = `⏰ ${timeStr}`;
+            
+            document.getElementById('reminderPopup').classList.add('show');
+            
+            // 同时显示通知提示
+            showNotification(message);
+        }
+
+        // 关闭提醒弹窗
+        function closeReminder() {
+            document.getElementById('reminderPopup').classList.remove('show');
+            scheduleNextReminder();
+        }
+
+        // 从提醒弹窗喝水
+        function drinkFromReminder() {
+            document.getElementById('reminderPopup').classList.remove('show');
+            drinkWater();
+            scheduleNextReminder();
+        }
+
+        let cooldownInterval = null;
+
+        function showCooldownPopup(remainingSeconds) {
+            const popup = document.getElementById('cooldownPopup');
+            document.getElementById('cooldownTime').textContent = remainingSeconds;
+            popup.classList.add('show');
+            
+            if (cooldownInterval) {
+                clearInterval(cooldownInterval);
+            }
+            
+            cooldownInterval = setInterval(() => {
+                remainingSeconds--;
+                document.getElementById('cooldownTime').textContent = remainingSeconds;
+                
+                if (remainingSeconds <= 0) {
+                    closeCooldownPopup();
+                }
+            }, 1000);
+        }
+
+        function closeCooldownPopup() {
+            const popup = document.getElementById('cooldownPopup');
+            popup.classList.remove('show');
+            
+            if (cooldownInterval) {
+                clearInterval(cooldownInterval);
+                cooldownInterval = null;
+            }
+        }
+
+        // 显示彩蛋弹窗
+        function showEasterEgg() {
+            const popup = document.getElementById('easterEggPopup');
+            popup.classList.add('show');
+            createConfetti();
+        }
+
+        // 隐藏彩蛋弹窗
+        function hideEasterEgg() {
+            const popup = document.getElementById('easterEggPopup');
+            popup.classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('confettiContainer').innerHTML = '';
+            }, 500);
+        }
+
+        // 创建彩纸效果
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffd700', '#ff69b4'];
+            const shapes = ['🎉', '🎊', '⭐', '💖', '💗', '✨', '🌟', '💕'];
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    confetti.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 4000);
+                }, i * 30);
+            }
+        }
+
+        // 数据持久化 - 保存数据
+        function saveData() {
+            const data = {
+                drinkCount,
+                records,
+                reminderEnabled,
+                reminderInterval,
+                startHour,
+                startMinute,
+                endHour,
+                endMinute,
+                dailyGoal,
+                dailyRecords,
+                easterEggTriggered,
+                lastDrinkTime
+            };
+            localStorage.setItem('drinkWaterData', JSON.stringify(data));
+        }
+
+        // 数据持久化 - 加载数据
+        function loadData() {
+            const saved = localStorage.getItem('drinkWaterData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (data.drinkCount !== undefined) drinkCount = data.drinkCount;
+                if (data.records) records = data.records;
+                if (data.reminderEnabled !== undefined) reminderEnabled = data.reminderEnabled;
+                if (data.reminderInterval) reminderInterval = data.reminderInterval;
+                if (data.startHour !== undefined) startHour = data.startHour;
+                if (data.startMinute !== undefined) startMinute = data.startMinute;
+                if (data.endHour !== undefined) endHour = data.endHour;
+                if (data.endMinute !== undefined) endMinute = data.endMinute;
+                if (data.dailyGoal !== undefined) dailyGoal = data.dailyGoal;
+                if (data.dailyRecords) dailyRecords = data.dailyRecords;
+                if (data.easterEggTriggered !== undefined) easterEggTriggered = data.easterEggTriggered;
+                if (data.lastDrinkTime) {
+                    lastDrinkTime = new Date(data.lastDrinkTime);
+                    // 检查是否是新的一天，如果是则重置lastDrinkTime
+                    const today = new Date().toISOString().split('T')[0];
+                    const lastDrinkDate = lastDrinkTime.toISOString().split('T')[0];
+                    if (today !== lastDrinkDate) {
+                        lastDrinkTime = null;
+                    }
+                }
+                
+                // 更新设置面板的显示
+                if (data.dailyGoal !== undefined) {
+                    document.getElementById('dailyGoalDisplay').textContent = `${dailyGoal} 杯`;
+                }
+            }
+        }
+
+        // 显示通知提示
+        function showNotification(message) {
+            const toast = document.getElementById('notificationToast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // 设置下次提醒
+        function scheduleNextReminder() {
+            clearTimeout(reminderTimeout);
+            clearInterval(countdownInterval);
+            
+            if (!reminderEnabled) {
+                document.getElementById('countdownTime').textContent = '--:--';
+                return;
+            }
+
+            // 检查当前是否在提醒时间段内
+            if (!isInReminderTimeRange()) {
+                // 等待到开始时间
+                const now = new Date();
+                const startTimeToday = new Date();
+                startTimeToday.setHours(startHour, startMinute, 0, 0);
+                
+                if (now > startTimeToday) {
+                    // 今天的开始时间已过，等待明天
+                    startTimeToday.setDate(startTimeToday.getDate() + 1);
+                }
+                
+                nextReminderTime = startTimeToday;
+                const waitTime = startTimeToday - now;
+                
+                reminderTimeout = setTimeout(() => {
+                    showReminderPopup();
+                }, waitTime);
+            } else {
+                // 在时间段内，正常设置下次提醒
+                nextReminderTime = getNextReminderTime();
+                
+                reminderTimeout = setTimeout(() => {
+                    showReminderPopup();
+                }, reminderInterval * 60000);
+            }
+            
+            // 开始倒计时
+            countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
+
+        // 初始化
+        loadData();
+        createFloatingHearts();
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // 启动提醒系统
+        scheduleNextReminder();
+    </script>
+</body>
+</html>
