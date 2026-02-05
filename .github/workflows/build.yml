@@ -18,15 +18,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Download Gradle
+    - name: Download Gradle 8.2
       run: |
-        wget https://services.gradle.org/distributions/gradle-8.2-bin.zip
-        unzip gradle-8.2-bin.zip
+        wget https://services.gradle.org/distributions/gradle-8.2-bin.zip -O gradle.zip
+        unzip gradle.zip -d .
+        rm gradle.zip
 
     - name: Build with Gradle
       run: |
-        export PATH=$PATH:$(pwd)/gradle-8.2/bin
-        gradle assembleDebug
+        export GRADLE_HOME=$(pwd)/gradle-8.2
+        export PATH=$GRADLE_HOME/bin:$PATH
+        gradle --no-daemon --warning-mode all assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
