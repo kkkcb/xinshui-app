@@ -1,8 +1,7 @@
 {
   "appId": "com.drinkwater.app",
   "appName": "心水",
-  "webDir": ".",
-  "bundledWebRuntime": false,
+  "webDir": "www",
   "server": {
     "androidScheme": "https"
   },
