@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.drinkwater.app"
+    namespace = "com.example.drinkwater"
     compileSdk = 34
 
     defaultConfig {
