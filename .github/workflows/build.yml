@@ -18,11 +18,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
 
     - name: Build Android APK with Gradle
-      run: ./gradlew clean assembleDebug
+      run: |
+        java -jar gradle/wrapper/gradle-wrapper.jar clean assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
