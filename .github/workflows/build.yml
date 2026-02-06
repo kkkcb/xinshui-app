@@ -12,27 +12,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
       with:
-        java-version: '17'
-        distribution: 'temurin'
+        node-version: '18'
 
-    - name: Download Gradle 8.2
-      run: |
-        wget https://services.gradle.org/distributions/gradle-8.2-bin.zip -O gradle.zip
-        unzip gradle.zip -d .
-        rm gradle.zip
+    - name: Install dependencies
+      run: npm install
 
-    - name: Build with Gradle
-      run: |
-        export GRADLE_HOME=$(pwd)/gradle-8.2
-        export PATH=$GRADLE_HOME/bin:$PATH
-        gradle --no-daemon --warning-mode all assembleDebug
+    - name: Sync Capacitor Android
+      run: npx cap sync android
+
+    - name: Build Android APK
+      run: npx cap build android
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: xinshui-debug-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: android/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
