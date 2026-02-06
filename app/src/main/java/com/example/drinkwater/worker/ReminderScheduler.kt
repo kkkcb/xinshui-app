@@ -27,10 +27,12 @@ class ReminderScheduler(private val context: Context) {
     }
 
     fun scheduleReminderSync(settings: ReminderSettings) {
-        if (settings.isEnabled) {
-            scheduleWork(settings.intervalMinutes)
-        } else {
-            cancelWork()
+        CoroutineScope(Dispatchers.IO).launch {
+            if (settings.isEnabled) {
+                scheduleWork(settings.intervalMinutes)
+            } else {
+                cancelWork()
+            }
         }
     }
 
